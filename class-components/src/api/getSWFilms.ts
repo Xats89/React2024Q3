@@ -1,12 +1,12 @@
-export interface SWMovie {
+export interface SWFilms {
   count: number, 
     next: null | number, 
     previous: null | number, 
-    results: MovieResult[]
+    results: FilmResult[]
 }
-export interface MovieResult {
+export interface FilmResult {
   title: string, 
-  episode_id: 4, 
+  episode_id: number, 
   opening_crawl: string, 
   director: string,
   producer: string,
@@ -21,7 +21,7 @@ export interface MovieResult {
   url: string,
 }
 
-export default async function getMovies(): Promise<SWMovie> {
+export default async function getFilms(): Promise<SWFilms> {
   const url =
     'https://swapi.dev/api/films';
   const options = {
