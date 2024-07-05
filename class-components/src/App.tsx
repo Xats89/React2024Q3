@@ -1,6 +1,6 @@
 import React from 'react';
 import MoviesList from './components/moviesList';
-import './App.css';
+import './App.scss';
 
 class App extends React.Component {
   render(): React.ReactNode {

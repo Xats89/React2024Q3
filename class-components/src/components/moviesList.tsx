@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import getMovies, { Movie } from '../api/getMovies';
+import getSWMovies,  {MovieResult} from '../api/getSWMovies'
+import searchSW from '../api/searchSW'
 
-class MoviesList extends Component<object, { movies: Movie[] }> {
+class MoviesList extends Component<object, { movies: MovieResult[] }> {
   constructor(props: object) {
     super(props);
     this.state = {
@@ -11,11 +12,17 @@ class MoviesList extends Component<object, { movies: Movie[] }> {
 
   async componentDidMount() {
     try {
-      const res = await getMovies();
-      if (res) {
-        this.setState({ movies: res });
+      const lastSearch = this.checkLastSearch()
+      if(lastSearch) {
+        const res = await searchSW(lastSearch)
+        this.setState({ movies: res.results });  
       } else {
-        console.error('Failed to fetch data');
+        const res = await getSWMovies();
+        if (res) {
+          this.setState({ movies: res.results });
+        } else {
+          console.error('Failed to fetch data');
+        }
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -26,16 +33,25 @@ class MoviesList extends Component<object, { movies: Movie[] }> {
     console.log(this.state);
   }
 
-  onSearchClick(
+  async onSearchClick(
     event:
       | React.FormEvent<HTMLFormElement>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ): void {
+  ): Promise<void> {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    localStorage.setItem('lastSearch', formJson.searchInput.toString().trim());
+    const text = formJson.searchInput.toString().trim()
+    localStorage.setItem('lastSearch', text);
+    // console.log(searchSW(text))
+    const res = await searchSW(text)
+    this.setState({ movies: res.results });
+  }
+
+  private checkLastSearch() {
+    const lastSearch = localStorage.getItem('lastSearch')
+    return   lastSearch ? lastSearch : ''
   }
 
   render() {
@@ -44,16 +60,23 @@ class MoviesList extends Component<object, { movies: Movie[] }> {
     return (
       <>
         <form onSubmit={(event) => this.onSearchClick(event)}>
-          <input name="searchInput" type="text" placeholder="Search" />
+          <input name="searchInput" type="text" placeholder="Search" defaultValue={this.checkLastSearch()} />
           <button type="submit">Search</button>
         </form>
         <div>
-          <h1>Movies List</h1>
+          <h1>Star Wars Movies List</h1>
           <ul className='movies-list'>
             {movies.map((movie) => (
-              <li className='movies-list__item' key={movie.node.id}>
-                <img className='movies-list__item_image'  src={movie.node.primaryImage.url} alt="movie image" />
-                {movie.node.originalTitleText.text}
+              <li className='movies-list__item' key={movie.episode_id}>
+                <h3>
+                  {movie.title}
+                </h3>
+                <p>
+                  {movie.opening_crawl}
+                </p>
+                <p>
+                Release date: {movie.release_date}
+                </p>
               </li>
             ))}
           </ul>
