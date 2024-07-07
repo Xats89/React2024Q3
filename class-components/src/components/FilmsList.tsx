@@ -28,10 +28,6 @@ class FilmsList extends Component<FilmsListProps> {
     }
   }
 
-  handleClick() {
-    console.log(this.props.filmsData);
-  }
-
   async onSearchClick(
     event:
       | React.FormEvent<HTMLFormElement>
