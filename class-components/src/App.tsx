@@ -1,35 +1,54 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import React from 'react';
+import { FilmResult } from './api/getSWFilms';
+import ErrorBoundary from './components/ErrorBoundary';
+import FilmsList from './components/FilmsList';
+import Search from './components/Search';
+import BugComponent from './components/BugComponent';
+import Spinner from './components/Spinner';
+import './App.scss';
 
-function App() {
-  const [count, setCount] = useState(0);
+interface AppProps {}
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+interface AppState {
+  filmsData: FilmResult[] | [];
+}
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      filmsData: [],
+    };
+    this.updateFilmsData = this.updateFilmsData.bind(this);
+  }
+
+  updateFilmsData(data: FilmResult[]) {
+    this.setState({ filmsData: data });
+  }
+
+  render(): React.ReactNode {
+    const { filmsData } = this.state;
+    const spinner = !filmsData ? <Spinner /> : null;
+    const filmsList = filmsData ? (
+      <FilmsList
+        filmsData={this.state.filmsData}
+        updateFilmsData={this.updateFilmsData}
+      />
+    ) : null;
+
+    return (
+      <>
+        <ErrorBoundary>
+          <Search updateFilmsData={this.updateFilmsData} />
+          {spinner}
+          {filmsList}
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <BugComponent />
+        </ErrorBoundary>
+      </>
+    );
+  }
 }
 
 export default App;
