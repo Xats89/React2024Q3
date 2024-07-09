@@ -5,6 +5,8 @@ export interface IPeopleResult {
   results: IPeople[];
 }
 export interface IPeople {
+  id?: number;
+  img?: string;
   name: string;
   height: number;
   mass: number;
