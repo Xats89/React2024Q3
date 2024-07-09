@@ -1,29 +1,28 @@
 export interface SWFilms {
-  count: number, 
-    next: null | number, 
-    previous: null | number, 
-    results: FilmResult[]
+  count: number;
+  next: null | number;
+  previous: null | number;
+  results: FilmResult[];
 }
 export interface FilmResult {
-  title: string, 
-  episode_id: number, 
-  opening_crawl: string, 
-  director: string,
-  producer: string,
-  release_date: string,
-  characters: string[],
-  planets: string[],
-  starships: string[],
-  vehicles: string[],
-  species: string[],
-  created: string,
-  edited: string,
-  url: string,
+  title: string;
+  episode_id: number;
+  opening_crawl: string;
+  director: string;
+  producer: string;
+  release_date: string;
+  characters: string[];
+  planets: string[];
+  starships: string[];
+  vehicles: string[];
+  species: string[];
+  created: string;
+  edited: string;
+  url: string;
 }
 
 export default async function getFilms(): Promise<SWFilms> {
-  const url =
-    'https://swapi.dev/api/films';
+  const url = 'https://swapi.dev/api/films';
   const options = {
     method: 'GET',
   };
@@ -37,4 +36,3 @@ export default async function getFilms(): Promise<SWFilms> {
     throw error;
   }
 }
-

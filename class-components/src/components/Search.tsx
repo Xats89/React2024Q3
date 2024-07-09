@@ -5,7 +5,9 @@ import searchSW from '../api/searchSW';
 interface SearchProps {
   updateFilmsData: (data: FilmResult[]) => void;
 }
+
 export default class Search extends Component<SearchProps> {
+  
   async onSearchClick(
     event:
       | React.FormEvent<HTMLFormElement>
@@ -22,11 +24,14 @@ export default class Search extends Component<SearchProps> {
   }
 
   render() {
-    const lastSearch = localStorage.getItem('lastSearch')
+    const lastSearch = localStorage.getItem('lastSearch');
     return (
-      <form className='search-form' onSubmit={(event) => this.onSearchClick(event)}>
+      <form
+        className="search-form"
+        onSubmit={(event) => this.onSearchClick(event)}
+      >
         <input
-        className='search-form__input'
+          className="search-form__input"
           name="searchInput"
           type="text"
           placeholder="Search"

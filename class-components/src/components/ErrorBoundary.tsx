@@ -25,7 +25,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
   render(): ReactNode {
     if (this.state.errorInfo) {
       return (
-        <div className='bug-component'>
+        <div className="bug-component">
           <h2>Component returned an error.</h2>
           <details style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}

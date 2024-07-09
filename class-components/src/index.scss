@@ -1,8 +1,17 @@
 @import './App.scss';
-@import './components/FilmsList.scss';
-@import './components/BugComponent.scss';
-@import './components/Search.scss';
-@import './components/Spinner.scss';
+@import './assets/styles/BugComponent.scss';
+@import './assets/styles/Details.scss';
+@import './assets/styles/FilmsList.scss';
+@import './assets/styles/Header.scss';
+@import './assets/styles/Navigation.scss';
+@import './assets/styles/Search.scss';
+@import './assets/styles/Spinner.scss';
+@import './assets/styles/People.scss';
+
+.result-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

@@ -3,7 +3,7 @@ import { FilmResult } from './api/getSWFilms';
 import ErrorBoundary from './components/ErrorBoundary';
 import FilmsList from './components/FilmsList';
 import Search from './components/Search';
-import BugComponent from './components/BugComponent';
+import Details from './components/Details';
 import Spinner from './components/Spinner';
 import './App.scss';
 
@@ -12,6 +12,8 @@ interface AppProps {}
 interface AppState {
   filmsData: FilmResult[] | [];
 }
+
+
 
 class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
@@ -42,9 +44,7 @@ class App extends React.Component<AppProps, AppState> {
           <Search updateFilmsData={this.updateFilmsData} />
           {spinner}
           {filmsList}
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <BugComponent />
+          <Details />
         </ErrorBoundary>
       </>
     );

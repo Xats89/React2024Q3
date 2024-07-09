@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import getSWFilms,  {FilmResult} from '../api/getSWFilms'
-import searchSW from '../api/searchSW'
+import getSWFilms, { FilmResult } from '../api/getSWFilms';
+import searchSW from '../api/searchSW';
 
 interface FilmsListProps {
   filmsData: FilmResult[];
   updateFilmsData: (data: FilmResult[]) => void;
-  }
+}
 
 class FilmsList extends Component<FilmsListProps> {
-
   async componentDidMount() {
     try {
-      const lastSearch = localStorage.getItem('lastSearch') || ''
-      if(lastSearch) {
-        const res = await searchSW(lastSearch)
-        this.props.updateFilmsData(res.results);  
+      const lastSearch = localStorage.getItem('lastSearch') || '';
+      if (lastSearch) {
+        const res = await searchSW(lastSearch);
+        this.props.updateFilmsData(res.results);
       } else {
         const res = await getSWFilms();
         if (res) {
@@ -37,9 +36,9 @@ class FilmsList extends Component<FilmsListProps> {
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    const text = formJson.searchInput.toString().trim()
+    const text = formJson.searchInput.toString().trim();
     localStorage.setItem('lastSearch', text);
-    const res = await searchSW(text)
+    const res = await searchSW(text);
     this.props.updateFilmsData(res.results);
   }
 
@@ -47,24 +46,18 @@ class FilmsList extends Component<FilmsListProps> {
     const films = this.props.filmsData;
 
     return (
-        <div>
-          <h1>Star Wars films List</h1>
-          <ul className='films-list'>
-            {films.map((film) => (
-              <li className='films-list__item' key={film.episode_id}>
-                <h3>
-                  {film.title}
-                </h3>
-                <p>
-                  {film.opening_crawl}
-                </p>
-                <p>
-                Release date: {film.release_date}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div>
+        <h1>Star Wars films List</h1>
+        <ul className="films-list">
+          {films.map((film) => (
+            <li className="films-list__item" key={film.episode_id}>
+              <h3>{film.title}</h3>
+              <p>{film.opening_crawl}</p>
+              <p>Release date: {film.release_date}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   }
 }
