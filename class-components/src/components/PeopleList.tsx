@@ -1,31 +1,25 @@
-import { IPeople } from '../types/types';
-import getItemImage from '../utils/getItemImage';
+import { Outlet, useLoaderData } from 'react-router-dom';
+import { IPeopleResult } from '../types/types';
 
-export default function PeopleList({
-  people,
-  setDetails,
-}: {
-  people: IPeople[];
-  setDetails: React.Dispatch<React.SetStateAction<IPeople | null>>;
-}) {
-  
-  function handleClick(details: IPeople): void {
-    setDetails({...details, img: getItemImage('characters',details.url)})
+export default function PeopleList() {
+
+  const {peoplesData} = useLoaderData() as { peoplesData: IPeopleResult | undefined }
+  const peoples = peoplesData?.results
+  function handleClick(): void {
   }
-
   
-  const peoples = people || [];
   return (
     <div>
       <div className="people-list">
-        {peoples.map((el, i) => {
+        {peoples?.map((el, i) => {
           return (
-            <div className="people-list__item" key={i} onClick={() => handleClick(el)}>
+            <div className="people-list__item" key={i} onClick={() => handleClick()}>
               {el.name}
             </div>
           );
         })}
       </div>
+      <Outlet/>
     </div>
   );
 }

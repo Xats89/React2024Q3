@@ -7,11 +7,11 @@ const routes = [
   },
   {
     title: 'People',
-    to: '/people',
+    to: '/people/',
   },
   {
     title: 'Films',
-    to: '/films',
+    to: '/films/',
   },
 ];
 export default function Navigation() {
