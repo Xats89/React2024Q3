@@ -11,6 +11,7 @@
 .result-wrapper {
   display: grid;
   grid-template-columns: 1fr 2fr;
+  align-items: center;
 }
 
 :root {

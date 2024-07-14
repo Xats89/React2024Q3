@@ -1,30 +1,27 @@
-import getSWAPI from '../api/getSWAPI';
-import { IPeopleResult } from '../types/types';
+import { useNavigate } from 'react-router-dom';
+import useSearchQuery from '../utils/useSearchQuery ';
 
-export default function Searching({
-  baseFetchURL,
-  setSWAPIData,
-}: {
-  baseFetchURL: string;
-  setSWAPIData: React.Dispatch<React.SetStateAction<IPeopleResult | null>>;
-}) {
-  async function onSearchClick(
+const Searching = () => {
+  const navigate = useNavigate();
+  const [query, setQuery] = useSearchQuery();
+
+  const onSearchClick = (
     event:
       | React.FormEvent<HTMLFormElement>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ): Promise<void> {
+  ) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
     const text = formJson.searchInput.toString().trim();
-    localStorage.setItem('lastSearch', text);
-    const res = await getSWAPI(baseFetchURL + '/?search=' + text);
-    console.log(res)
-    setSWAPIData(res);
-  }
-
-  const lastSearch = localStorage.getItem('lastSearch');
+    setQuery(text);
+    if (text) {
+      navigate(`/people/where?search=${text}`);
+    } else {
+      navigate(`/people`);
+    }
+  };
 
   return (
     <form className="search-form" onSubmit={(event) => onSearchClick(event)}>
@@ -33,9 +30,11 @@ export default function Searching({
         name="searchInput"
         type="text"
         placeholder="Search"
-        defaultValue={lastSearch || ''}
+        defaultValue={query}
       />
       <button type="submit">Search</button>
     </form>
   );
-}
+};
+
+export default Searching;

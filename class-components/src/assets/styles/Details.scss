@@ -1,4 +1,47 @@
 .details {
   border: 1px solid black;
   border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: min-content;
+  overflow: hidden;
+  height: fit-content;
+  align-self: center;
+  margin: 1rem;
+  max-height: 447px;
+  height: 100%;
+  &__item_image {
+    grid-row: 1 / 3;
+    width: 100%;
+    align-self: center;
+    // max-height: 100%;
+  }
+  &__descriptopns-list{
+    font-size: 1.5rem;
+    text-align: left;
+    margin: 0;
+  }
+  &__close-button{
+    display: block;
+    justify-self: end;
+    align-self:flex-start;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: space-around;
+  &_prev, &_next {
+    border: 2px solid black;
+    padding: 10px 20px;
+  }
+  &_prev {
+    border-radius: 50% 12px 12px 50%;
+  }
+  &_next {
+    border-radius: 12px 50% 50% 12px;
+  }
+  &_disabled{
+    border: 1px solid black;
+    pointer-events: none;
+  }
 }
