@@ -1,6 +1,7 @@
 import {
   Await,
   useLoaderData,
+  useNavigate,
   useNavigation,
   useSearchParams,
 } from 'react-router-dom';
@@ -15,12 +16,19 @@ export default function Details() {
   };
   const [searchParams] = useSearchParams();
   const navigation = useNavigation();
-  function handleClick() {}
+  const navigate = useNavigate()
+  function handleClick() {
+    const search = searchParams.get('search')
+    const page = searchParams.get('page')
+    if (search) navigate(`/people/where?search=${search}`)
+    else if (page) navigate(`/people/where?page=${page}`)
+    else navigate(`/people/`)
+  }
 
   return (
     <div className="details">
-      {navigation.state === 'loading' ? (
-        <>
+    {navigation.state === 'loading' ? (
+      <>
           <Spinner />
         </>
       ) : (
